@@ -1,0 +1,307 @@
+# 'check_http' command definition
+define command{
+	command_name	check_http
+	command_line	/usr/lib/nagios/plugins/check_http -H '$HOSTADDRESS$' -I '$HOSTADDRESS$' '$ARG1$'
+	}
+
+# 'check_http_hostname' command definition
+define command{
+	command_name	check_httpname
+	command_line	/usr/lib/nagios/plugins/check_http -H '$HOSTNAME$' -I '$HOSTADDRESS$' '$ARG1$'
+	}
+
+# 'check_http2' command definition
+define command{
+	command_name	check_http2
+	command_line	/usr/lib/nagios/plugins/check_http -H '$ARG1$' -I '$HOSTADDRESS$' -w '$ARG2$' -c '$ARG3$' '$ARG4$'
+	}
+
+# 'check_squid' command definition
+define command{
+	command_name	check_squid
+	command_line	/usr/lib/nagios/plugins/check_http -H '$HOSTADDRESS$' -p '$ARG1$'  -u '$ARG2$'
+	}
+
+# 'check_https' command definition
+define command{
+	command_name    check_https
+	command_line	/usr/lib/nagios/plugins/check_http --ssl -H '$HOSTADDRESS$' -I '$HOSTADDRESS$' '$ARG1$'
+	}
+
+# 'check_https_hostname' command definition
+define command{
+	command_name	check_https_hostname
+	command_line	/usr/lib/nagios/plugins/check_http --ssl -H '$HOSTNAME$' -I '$HOSTADDRESS$' '$ARG1$'
+	}
+
+# 'check_https_auth' command definition
+define command{
+	command_name	check_https_auth
+	command_line	/usr/lib/nagios/plugins/check_http --ssl -H '$HOSTADDRESS$' -I '$HOSTADDRESS$' -a '$ARG1$' '$ARG2$'
+	}
+
+# 'check_https_auth_hostname' command definition
+define command{
+	command_name	check_https_auth_hostname
+	command_line	/usr/lib/nagios/plugins/check_http --ssl -H '$HOSTNAME$' -I '$HOSTADDRESS$' -a '$ARG1$' '$ARG2$'
+	}
+
+# 'check_cups' command definition
+define command{
+	command_name	check_cups
+	command_line	/usr/lib/nagios/plugins/check_http -I '$HOSTADDRESS$' -p 631 '$ARG1$'
+	}
+
+####
+# use these checks, if you want to test IPv4 connectivity on IPv6 enabled systems
+####
+
+# 'check_http_4' command definition
+define command{
+        command_name    check_http_4
+        command_line    /usr/lib/nagios/plugins/check_http -H '$HOSTADDRESS$' -I '$HOSTADDRESS$' -4 '$ARG1$'
+        }
+
+# 'check_http_hostname_4' command definition
+define command{
+	command_name	check_httpname_4
+	command_line	/usr/lib/nagios/plugins/check_http -H '$HOSTNAME$' -I '$HOSTADDRESS$' -4 '$ARG1$'
+	}
+
+# 'check_http2_4' command definition
+define command{
+        command_name    check_http2_4
+        command_line    /usr/lib/nagios/plugins/check_http -H '$ARG1$' -I '$HOSTADDRESS$' -w '$ARG2$' -c '$ARG3$' -4 '$ARG4$'
+        }
+
+# 'check_squid_4' command definition
+define command{
+        command_name    check_squid_4
+        command_line    /usr/lib/nagios/plugins/check_http -H '$HOSTADDRESS$' -p '$ARG1$'  -u '$ARG2$' -4
+        }
+
+# 'check_https_4' command definition
+define command{
+        command_name    check_https_4
+        command_line    /usr/lib/nagios/plugins/check_http --ssl -H '$HOSTADDRESS$' -I '$HOSTADDRESS$' -4 '$ARG1$'
+	}
+
+# 'check_https_hostname_4' command definition
+define command{
+	command_name	check_https_hostname_4
+	command_line	/usr/lib/nagios/plugins/check_http --ssl -H '$HOSTNAME$' -I '$HOSTADDRESS$' -4 '$ARG1$'
+	}
+
+# 'check_https_auth_4' command definition
+define command{
+        command_name    check_https_auth_4
+        command_line    /usr/lib/nagios/plugins/check_http --ssl -H '$HOSTADDRESS$' -I '$HOSTADDRESS$' -a '$ARG1$' -4 '$ARG2$'
+        }
+
+# 'check_https_auth_hostname_4' command definition
+define command{
+	command_name	check_https_auth_hostname_4
+	command_line	/usr/lib/nagios/plugins/check_http --ssl -H '$HOSTNAME' -I '$HOSTADDRESS$' -a '$ARG1$' -4 '$ARG2$'
+	}
+
+# 'check_cups_4' command definition
+define command{
+	command_name	check_cups_4
+	command_line	/usr/lib/nagios/plugins/check_http -I '$HOSTADDRESS$' -p 631 -4 '$ARG1$'
+	}
+
+define command {
+    command_name    check_http_slow
+    command_line    $USER1$/check_http -H $HOSTADDRESS$ -t $ARG1$
+    }
+
+define command {
+    command_name    check_http_on_port
+    command_line    $USER1$/check_http -H $HOSTADDRESS$ -p $ARG1$
+    }
+
+define command {
+    command_name    check_https_on_port
+    command_line    $USER1$/check_http -S -H $HOSTADDRESS$ -p $ARG1$
+    }
+
+define command {
+    command_name    check_https_port_status
+    command_line    $USER1$/check_http -S -H $HOSTADDRESS$ -p $ARG1$ -e $ARG2$ -u $ARG3$
+    }
+
+define command {
+    command_name    check_http_unauthorized
+    command_line    $USER1$/check_http -I $HOSTADDRESS$ -H $ARG1$ -u $ARG2$ -e "HTTP/1.1 401 "
+    }
+
+define command {
+    command_name    check_https_unauthorized
+    command_line    $USER1$/check_http -S -I $HOSTADDRESS$ -H $ARG1$ -u $ARG2$ -e "HTTP/1.1 $ARG3$ "
+    }
+
+define command {
+    command_name    check_http_redirect
+    command_line    $USER1$/check_http -I $HOSTADDRESS$ -H $ARG1$ -u $ARG2$ -e "HTTP/1.1 $ARG3$ " -d "Location: $ARG4$"
+    }
+
+define command {
+    command_name    check_http_port_status
+    command_line    $USER1$/check_http -I $HOSTADDRESS$ -p $ARG1$ -e "HTTP/1.1 $ARG2$ "
+    }
+
+# 'check_http_wikipedia' command definition, querying a different URL
+define command {
+    command_name    check_http_wikipedia
+    command_line    $USER1$/check_http -H en.wikipedia.org -I $HOSTADDRESS$ -u /
+    }
+
+# 'check_http_wikipedia' command definition, querying the main page
+define command {
+    command_name    check_http_wikipedia_main
+    command_line    $USER1$/check_http -H en.wikipedia.org -I $HOSTADDRESS$ -u /wiki/Main_Page
+    }
+
+# 'check_http_jobrunner' command definition, querying the rpc endpoint
+define command {
+    command_name    check_http_jobrunner
+    command_line    $USER1$/check_http -I $HOSTADDRESS$ -p 9005 -u /rpc/RunJobs.php
+    }
+
+# 'check_http_upload' command definition, querying a different URL
+define command {
+    command_name    check_http_upload
+    command_line    $USER1$/check_http -H upload.wikimedia.org -I $HOSTADDRESS$ -u /monitoring/backend
+    }
+
+# 'check_https_upload' command definition, querying a different URL
+define command {
+    command_name    check_https_upload
+    command_line    $USER1$/check_http -H upload.wikimedia.org -S -I $HOSTADDRESS$ -u /monitoring/backend
+    }
+
+# 'check_http_varnish' command definition
+define command {
+    command_name    check_http_varnish
+    command_line    $USER1$/check_http -H $ARG1$ -p $ARG2$ -I $HOSTADDRESS$ -u /wikimedia-monitoring-test
+    }
+
+# 'check_http_upload' command definition, querying a different URL
+define command {
+    command_name    check_http_upload_on_port
+    command_line    $USER1$/check_http -H upload.wikimedia.org -I $HOSTADDRESS$ -u /monitoring/backend -p $ARG1$
+    }
+
+define command {
+    command_name    check_http_donate
+    command_line    $USER1$/check_http -H donate.wikimedia.org -I $HOSTADDRESS$
+    }
+
+# 'check_http_mobile' command definition
+define command {
+    command_name    check_http_mobile
+    command_line    $USER1$/check_http -H en.m.wikipedia.org -I $HOSTADDRESS$ -u /wiki/Main_Page -w 10 -c 20 -t 60 -f warning -r 'Terms of Use'
+    }
+
+define command {
+    command_name    check_http_url_at_address_for_string_with_timeout
+    command_line    $USER1$/check_http -t $ARG1$ -H $ARG2$ -I $ARG2$ -u $ARG3$ -s $ARG4$
+    }
+
+define command {
+    command_name    check_http_url_at_address_for_string
+    command_line    $USER1$/check_http -H $ARG1$ -I $ARG1$ -u $ARG2$ -s $ARG3$
+    }
+
+define command {
+    command_name    check_https_url_at_address_for_string
+    command_line    $USER1$/check_http -H $ARG1$ -I $ARG1$ -S -u $ARG2$ -s $ARG3$
+    }
+
+define command {
+    command_name    check_http_url_for_string
+    command_line    $USER1$/check_http -H $ARG1$ -I $HOSTADDRESS$ -u $ARG2$ -s $ARG3$
+    }
+
+define command {
+    command_name    check_https_url_for_string
+    command_line    $USER1$/check_http -H $ARG1$ -I $HOSTADDRESS$ -S -u $ARG2$ -s $ARG3$
+    }
+
+define command {
+    command_name    check_https_url_for_string_on_host
+    command_line    $USER1$/check_http -H $ARG1$ -I $ARG2$ -S -u $ARG3$ -s $ARG4$
+    }
+
+define command {
+    command_name    check_https_url_for_regexp
+    command_line    $USER1$/check_http -H $ARG1$ -I $HOSTADDRESS$ -S -u $ARG2$ --linespan --ereg $ARG3$
+    }
+
+define command {
+    command_name    check_http_url_for_regexp_on_port
+    command_line    $USER1$/check_http -H $ARG1$ -I $HOSTADDRESS$ -p $ARG2$ -u $ARG3$ --linespan --ereg $ARG4$
+    }
+
+define command {
+    command_name    check_http_url
+    command_line    $USER1$/check_http -H $ARG1$ -I $HOSTADDRESS$ -u $ARG2$
+    }
+
+define command {
+    command_name    check_http_port_url
+    command_line    $USER1$/check_http -I $HOSTADDRESS$ -p $ARG1$ -u "$ARG2$"
+    }
+
+define command {
+    command_name    check_http_hostheader_port_url
+    command_line    $USER1$/check_http -I $HOSTADDRESS$ -H $ARG1$ -p $ARG2$ -u "$ARG3$"
+    }
+
+define command {
+    command_name    check_https_url
+    command_line    $USER1$/check_http -H $ARG1$ -S -I $HOSTADDRESS$ -u $ARG2$
+    }
+
+define command {
+    command_name    check_http_lvs
+    command_line    $USER1$/check_http -H $ARG1$ -I $HOSTADDRESS$ -u "$ARG2$"
+    }
+
+define command {
+    command_name    check_https_lvs
+    command_line    $USER1$/check_http -H $ARG1$ -S -I $HOSTADDRESS$ -u "$ARG2$"
+    }
+
+define command {
+    command_name    check_http_lvs_on_port
+    command_line    $USER1$/check_http -H $ARG1$ -p $ARG2$ -I $HOSTADDRESS$ -u "$ARG3$"
+    }
+
+define command {
+    command_name    check_http_lvs_on_port_timeout
+    command_line    $USER1$/check_http -H $ARG1$ -p $ARG2$ -I $HOSTADDRESS$ -u "$ARG3$" -t "$ARG4$"
+    }
+
+# We pass -H here in order to make sure we end up in phabricator and not some
+# other project
+define command {
+    command_name    check_https_phabricator
+    command_line    $USER1$/check_http -S -H phabricator.wikimedia.org phabricator.wikimedia.org
+}
+
+# check the Apple dictionary bridge on search.wm.org
+define command {
+    command_name    check_https_dictbridge
+    command_line    $USER1$/check_http -S -H 'search.wikimedia.org' -u 'https://search.wikimedia.org/?lang=en&site=wikipedia&search=Wikimedia_Foundation&limit=1' -s 'Wikimedia_Foundation'
+}
+
+# These are so specific that a special command had to be created
+define command {
+    command_name    check_http_zotero
+    command_line    $USER1$/check_http -H $HOSTADDRESS$ -p $ARG1$ -P '[{"itemType":"journalArticle"}]' -T 'application/json' -u /export?format=wikipedia
+}
+define command {
+    command_name    check_http_zotero_lvs_on_port
+    command_line    $USER1$/check_http -I $HOSTADDRESS$ -H $ARG1$ -p $ARG2$ -P '[{"itemType":"journalArticle"}]' -T 'application/json' -u "$ARG3$"
+}

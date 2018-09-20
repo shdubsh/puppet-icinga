@@ -1,0 +1,5 @@
+
+define command {
+    command_name    puppet-FAIL
+    command_line    date --date @$LASTSERVICEOK$ +"Last successful Puppet run was %a %d %b %Y %T %Z" && exit 2
+}

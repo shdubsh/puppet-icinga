@@ -1,0 +1,15 @@
+# This file is managed by Puppet
+# Do NOT edit by hand! any manual change will be lost.
+#
+
+<% @contactgroups.keys.sort.each do |contactgroup| %>
+define contactgroup {
+  contactgroup_name   <%= contactgroup %>
+<%- if @contactgroups[contactgroup].include? 'alias' -%>
+  alias               <%= @contactgroups[contactgroup]['alias'] %>
+<%- end -%>
+<%- if @contactgroups[contactgroup].include? 'members' -%>
+  members             <%= @contactgroups[contactgroup]['members'].sort.join(',') %>
+<%- end -%>
+}
+<% end %>

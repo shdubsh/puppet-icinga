@@ -1,0 +1,26 @@
+
+# Elasticsearch Checks
+define command {
+    command_name    check_elasticsearch
+    command_line    $USER1$/check_elasticsearch.sh -H $HOSTADDRESS$ -P $ARG1$
+}
+
+define command {
+    command_name    check_cirrus_frozen_writes
+    command_line    $USER1$/check_cirrus_frozen_writes.py --url http://$HOSTADDRESS$:$ARG1$
+}
+
+define command {
+    command_name    check_elasticsearch_shards
+    command_line    $USER1$/check_elasticsearch.py --ignore-status --url http://$HOSTADDRESS$:$ARG1$
+}
+
+define command {
+    command_name    check_elasticsearch_shards_threshold
+    command_line    $USER1$/check_elasticsearch.py --ignore-status --url http://$HOSTADDRESS$:$ARG1$ --shards-inactive "$ARG2$"
+}
+
+define command {
+    command_name    check_elasticsearch_shard_size
+    command_line    $USER1$/check_elasticsearch_shard_size.py --url http://$HOSTADDRESS$:$ARG1$
+}

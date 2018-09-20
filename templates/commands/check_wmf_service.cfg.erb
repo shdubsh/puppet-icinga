@@ -1,0 +1,8 @@
+# Checks that a service works according to its spec
+#
+# ARG1 is the service url
+# ARG2 is the timeout in seconds
+define command{
+       command_name    check_wmf_service
+       command_line    /usr/bin/service-checker-swagger -t $ARG2$ $HOSTNAME$ $ARG1$
+}

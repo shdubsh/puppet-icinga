@@ -1,0 +1,37 @@
+# 'check_procs' command definition
+define command{
+	command_name	check_procs
+	command_line	/usr/lib/nagios/plugins/check_procs -w '$ARG1$' -c '$ARG2$'
+	}
+
+
+# 'check_procs_zombie' command definition
+define command{
+	command_name	check_procs_zombie
+	command_line	/usr/lib/nagios/plugins/check_procs -w '$ARG1$' -c '$ARG2$' -s Z
+	}
+
+
+# 'check_procs_httpd' command definition
+define command{
+	command_name	check_procs_httpd
+	command_line	/usr/lib/nagios/plugins/check_procs -w 5:'$ARG1$' -c 1:'$ARG2$' -C httpd
+	}
+
+# generic "check number of procs"
+# -a, --argument-array=STRING
+# Only scan for processes with args that contain STRING.
+
+define command {
+    command_name    check_procs_generic
+    command_line    $USER1$/check_procs -w $ARG1$:$ARG2$ -c $ARG3$:$ARG4$ -a $ARG5$
+}
+
+# generic "check number of procs"-2
+# -C, --command=COMMAND
+# Only scan for exact matches of COMMAND (without path).
+
+define command {
+    command_name    check_procs_generic_c
+    command_line    $USER1$/check_procs -w $ARG1$:$ARG2$ -c $ARG3$:$ARG4$ -C $ARG5$
+}
