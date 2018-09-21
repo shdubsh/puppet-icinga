@@ -16,6 +16,7 @@ class icinga (
 
   include icinga::plugins
   include icinga::commands
+  include icinga::naggen
 
   service { 'icinga':
     ensure    => $ensure_service,
@@ -30,7 +31,7 @@ class icinga (
     owner   => $icinga_user,
     group   => $icinga_group,
     require => Package['icinga'],
-    #notify  => Service['icinga'],
+    notify  => Service['icinga'],
   }
 
   file { '/etc/icinga/icinga.cfg':
@@ -39,7 +40,7 @@ class icinga (
     owner   => $icinga_user,
     group   => $icinga_group,
     require => Package['icinga'],
-    #notify  => Service['icinga'],
+    notify  => Service['icinga'],
   }
 
   file { '/etc/icinga/resource.cfg':
@@ -48,16 +49,7 @@ class icinga (
     group   => $icinga_group,
     mode    => '0644',
     require => Package['icinga'],
-    #notify  => Service['icinga'],
-  }
-
-  # If in Vagrant, fall back to local auth.
-  if ($domain == 'test')  # FIXME: There must be a better way to detect this.
-  {
-    file { '/etc/icinga/htpasswd.users':
-      content => 'admin:$6$A5e7/pKObWowY$PpcFrl5O9MZ4PfAAJFmIkOZTiFz7zoi.jdSqB4/8FxGEnvAe6I9rkooUcCpAGR/zyfBrXHzv29hc3OYSMPLwf1', # admin:admin
-      mode    => '0644'
-    }
+    notify  => Service['icinga'],
   }
 
   file { '/etc/icinga/objects':
@@ -67,8 +59,8 @@ class icinga (
   }
 
   # TODO: Enable when contactgroups are configured
-  # file { '/etc/icinga/objects/ncsa_frack.cfg':
-  #   source  => "puppet:///modules/${module_name}/ncsa_frack.cfg",
+  # file { '/etc/icinga/objects/nsca_frack.cfg':
+  #   source  => "puppet:///modules/${module_name}/nsca_frack.cfg",
   #   owner   => $icinga_user,
   #   group   => $icinga_group,
   #   mode    => '0644',
@@ -160,14 +152,6 @@ class icinga (
     mode   => '2755',
   }
 
-  # TODO: incorporate interface
-  # Check that the icinga config is sane
-  # monitoring::service { 'check_icinga_config':
-  #   description    => 'Check correctness of the icinga configuration',
-  #   check_command  => 'check_icinga_config',
-  #   check_interval => 10,
-  # }
-
   # script to schedule host downtimes
   file { '/usr/local/bin/icinga-downtime':
     ensure => present,
@@ -191,4 +175,19 @@ class icinga (
   # are declared by the icinga host itself
   resources { 'nagios_host': purge => true, }
   resources { 'nagios_service': purge => true, }
+
+  file { '/usr/share/icinga/htdocs/images/logos/ubuntu.png':
+    source => "puppet:///modules/${module_name}/ubuntu.png",
+    owner  => $icinga::icinga_user,
+    group  => $icinga::icinga_group,
+    mode   => '0644',
+  }
+
+  # Allow up to 5 notes_url URLs
+  ['1', '2', '3', '4', '5'].each |$note_id| {
+    file { "/usr/share/icinga/htdocs/images/${note_id}-notes.gif":
+      ensure => link,
+      target => 'stats.gif',
+    }
+  }
 }
