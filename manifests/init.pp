@@ -58,16 +58,6 @@ class icinga (
     recurse => true,
   }
 
-  # TODO: Enable when contactgroups are configured
-  # file { '/etc/icinga/objects/nsca_frack.cfg':
-  #   source  => "puppet:///modules/${module_name}/nsca_frack.cfg",
-  #   owner   => $icinga_user,
-  #   group   => $icinga_group,
-  #   mode    => '0644',
-  #   require => Package['icinga'],
-  #   #notify  => Service['icinga'],
-  # }
-
   file { '/etc/icinga/objects/contactgroups.cfg':
     content   => template("${module_name}/contactgroups.cfg.erb"),
     mode      => '0644',

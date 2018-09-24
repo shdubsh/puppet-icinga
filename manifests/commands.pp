@@ -26,6 +26,7 @@ class icinga::commands (
     'mail.cfg.erb',
     'mysql.cfg.erb',
     'nrpe.cfg.erb',
+    'nsca_fail.cfg.erb',
     'ntp.cfg.erb',
     'ping.cfg.erb',
     'procs.cfg.erb',
