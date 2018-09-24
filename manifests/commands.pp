@@ -30,6 +30,7 @@ class icinga::commands (
     'ping.cfg.erb',
     'procs.cfg.erb',
     'puppet.cfg.erb',
+    'raid_handler.cfg.erb',
     'smtp.cfg.erb',
     'snmp.cfg.erb',
     'ssh.cfg.erb',
