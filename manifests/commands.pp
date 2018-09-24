@@ -1,11 +1,17 @@
 
 class icinga::commands (
   $custom_commands = [
+    'check_grafana_alert.cfg.erb',
+    'check_graphite.cfg.erb',
     'check_icinga_config.cfg.erb',
     'check_legal_html.cfg.erb',
+    'check_ores_workers.cfg.erb',
     'check_prometheus_metric.cfg.erb',
     'check_ripe_atlas.cfg.erb',
+    'check_ssl.cfg.erb',
     'check_ssl_unified.cfg.erb',
+    'check_to_check_nagios_paging.cfg.erb',
+    'check_wikidata.cfg.erb',
     'check_wikidata_crit.cfg.erb',
     'check_wikitech_static.cfg.erb',
     'check_wikitech_static_version.cfg.erb',
